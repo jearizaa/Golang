@@ -96,8 +96,6 @@ func NewChart(candleWidth uint, df dataframe.DataFrame) Chart {
 	den := lowest - highest
 	a := num / den
 
-	fmt.Printf("Canvas: %d, %d\n", int(candleWidth)*(2*df.Nrow()+1)+int(margin), int(canvasHight))
-
 	return Chart{
 		data:        records,
 		columnIndex: columnIndex,
@@ -158,7 +156,11 @@ func (c *Chart) NewCandle(idx int, gCtx *draw2dimg.GraphicContext) {
 	gCtx.FillStroke()
 
 	if c.candleWidth > 1 {
-		gCtx.SetFillColor(color.RGBA{0xff, 0xff, 0xff, 0xff})
+		if close > open {
+			gCtx.SetFillColor(color.RGBA{0x00, 0x00, 0x00, 0xff})
+		} else {
+			gCtx.SetFillColor(color.RGBA{0xff, 0xff, 0xff, 0xff})
+		}
 		gCtx.MoveTo(c.xMapping(float64(idx))-centeringFactor*float64(c.candleWidth), c.yMapping(open))
 		gCtx.LineTo(c.xMapping(float64(idx))+centeringFactor*float64(c.candleWidth), c.yMapping(open))
 		gCtx.LineTo(c.xMapping(float64(idx))+centeringFactor*float64(c.candleWidth), c.yMapping(close))
