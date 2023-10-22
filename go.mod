@@ -1,6 +1,6 @@
 module github.com/jearizaa/Golang
 
-go 1.20
+go 1.21
 
 require (
 	github.com/go-gota/gota v0.12.0
